@@ -3,23 +3,26 @@ interface Props {
   variant?: 'light' | 'dark';
 }
 const { variant = 'dark' } = Astro.props;
-const ink = variant === 'light' ? '#FAF6EF' : '#1E2A45';
-const sub = variant === 'light' ? 'rgba(250,246,239,0.7)' : 'rgba(30,42,69,0.65)';
+const ink = variant === 'light' ? '#FFFFFF' : '#1F2225';
+const sub = variant === 'light' ? 'rgba(255,255,255,0.7)' : 'rgba(31,34,37,0.6)';
+const accent = variant === 'light' ? '#7FA5FB' : '#2875FA';
+const accentEnd = variant === 'light' ? '#5C93FB' : '#1C60DB';
+const gid = `swooshG-${variant}`;
 ---
 <a href="/" class="logo" aria-label="VDC Events & Consulting — Home">
   <span class="mark">
     <span class="mark-letters" style={`color:${ink}`}>VDC</span>
     <svg class="mark-swoosh" viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true">
       <defs>
-        <linearGradient id="swooshG" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#C9A24B"/>
-          <stop offset="1" stop-color="#A8842F"/>
+        <linearGradient id={gid} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color={accent}/>
+          <stop offset="1" stop-color={accentEnd}/>
         </linearGradient>
       </defs>
-      <path d="M 0 8 C 28 12.5, 62 10.5, 100 1.5 L 100 5 C 63 14, 28 14.5, 0 10.5 Z" fill="url(#swooshG)"/>
+      <path d="M 0 8 C 28 12.5, 62 10.5, 100 1.5 L 100 5 C 63 14, 28 14.5, 0 10.5 Z" fill={`url(#${gid})`}/>
     </svg>
     <svg class="mark-spark" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M 12 0 C 13.2 7.2, 14.4 8.4, 24 12 C 14.4 13.2, 13.2 14.4, 12 24 C 10.8 14.4, 9.6 13.2, 0 12 C 9.6 8.4, 10.8 7.2, 12 0 Z" fill="#C9A24B"/>
+      <path d="M 12 0 C 13.2 7.2, 14.4 8.4, 24 12 C 14.4 13.2, 13.2 14.4, 12 24 C 10.8 14.4, 9.6 13.2, 0 12 C 9.6 8.4, 10.8 7.2, 12 0 Z" fill={accent}/>
     </svg>
   </span>
   <span class="mark-sub" style={`color:${sub}`}>Events &amp; Consulting</span>
