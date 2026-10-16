@@ -1,0 +1,29 @@
+---
+interface Props {
+  variant?: 'light' | 'dark';
+  compact?: boolean;
+}
+const { variant = 'dark', compact = false } = Astro.props;
+const ink = variant === 'light' ? '#FAF6EF' : '#17140F';
+const gold = '#B08A3C';
+---
+<a href="/" class="logo" aria-label="VDC Events & Consulting — Home">
+  <svg width={compact ? 40 : 46} height={compact ? 40 : 46} viewBox="0 0 48 48" fill="none" aria-hidden="true">
+    <rect x="1.5" y="1.5" width="45" height="45" rx="6" stroke={gold} stroke-width="1.4"/>
+    <path d="M10 15 L16.5 33 L19 33 L25.5 15 L22.7 15 L17.8 28.6 L12.8 15 Z" fill={ink}/>
+    <path d="M26.5 15 h4.2 c4.6 0 7.3 2.6 7.3 6.6 0 4.6-3.4 6.9-7.9 6.9 h-3.6 Z M29.2 17.6 v8.3 h1.2 c3 0 4.9-1.6 4.9-4.2 0-2.5-1.8-4.1-4.7-4.1 Z" fill={gold} transform="translate(0.5,0)"/>
+    <path d="M14 36.5 h20" stroke={gold} stroke-width="1.2"/>
+  </svg>
+  {!compact && (
+    <span class="logo-word" style={`color:${ink}`}>
+      <strong>VDC</strong>
+      <small>Events &amp; Consulting</small>
+    </span>
+  )}
+</a>
+<style>
+  .logo { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+  .logo-word { display: flex; flex-direction: column; line-height: 1.05; }
+  .logo-word strong { font-family: 'Fraunces', serif; font-size: 21px; letter-spacing: 0.06em; font-weight: 600; }
+  .logo-word small { font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.75; margin-top: 3px; }
+</style>
