@@ -1,0 +1,13 @@
+# VDC Events — cache policy (Apache/SiteGround)
+# L'HTML non viene mai tenuto in cache dal browser: ogni visita chiede al server
+# se c'e' una versione nuova (i file restano velocissimi, sono statici).
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html?|php)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # Asset statici (css, immagini, font): cache lunga, cambiano solo a nuova versione
+  <FilesMatch "\.(css|js|jpe?g|png|webp|svg|woff2?|ico)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>
