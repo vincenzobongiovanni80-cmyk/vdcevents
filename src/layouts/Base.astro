@@ -6,8 +6,8 @@ interface Props {
   description?: string;
 }
 const {
-  title = 'VDC Events & Consulting — Organizzazione eventi a Torino e in tutta Italia',
-  description = 'VDC Events & Consulting progetta e coordina eventi, logistica, fornitori, marketing e regia in loco a Torino e in tutta Italia.',
+  title = 'VDC Events & Consulting — Organizzazione eventi in tutta Italia',
+  description = 'VDC Events & Consulting progetta e coordina eventi, logistica, fornitori, marketing e regia in loco in tutta Italia.',
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, 'https://vdcevents.com').href;
 ---
@@ -39,7 +39,7 @@ const canonical = new URL(Astro.url.pathname, 'https://vdcevents.com').href;
     "url": "https://vdcevents.com",
     "logo": "https://vdcevents.com/favicon.png",
     "description": description,
-    "address": { "@type": "PostalAddress", "addressLocality": "Torino", "addressCountry": "IT" },
+    "address": { "@type": "PostalAddress", "addressCountry": "IT" },
     "contactPoint": [{
       "@type": "ContactPoint",
       "contactType": "sales",
@@ -74,7 +74,7 @@ const canonical = new URL(Astro.url.pathname, 'https://vdcevents.com').href;
     <div class="container footer-grid">
       <div class="footer-brand">
         <Logo variant="light" />
-        <p>L'eccellenza dietro ogni grande evento.<br />Torino · operiamo in tutta Italia</p>
+        <p>L'eccellenza dietro ogni grande evento.<br />Organizziamo eventi in tutta Italia</p>
       </div>
       <nav class="footer-nav" aria-label="Navigazione footer">
         <a href="#metodo">Metodo</a>
@@ -89,7 +89,7 @@ const canonical = new URL(Astro.url.pathname, 'https://vdcevents.com').href;
       </div>
     </div>
     <div class="container footer-bottom">
-      <p>© 2026 VDC Events &amp; Consulting · Torino · P.IVA 03789390048</p>
+      <p>© 2026 VDC Events &amp; Consulting · P.IVA 03789390048</p>
     </div>
   </footer>
 
