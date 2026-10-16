@@ -1,0 +1,250 @@
+---
+import Logo from '../components/Logo.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = 'VDC Events & Consulting — Organizzazione eventi a Torino e in tutta Italia',
+  description = 'VDC Events & Consulting progetta e coordina eventi, logistica, fornitori, marketing e regia in loco a Torino e in tutta Italia.',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, 'https://vdcevents.com').href;
+---
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="VDC Events & Consulting" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content="https://vdcevents.com/img/hero.jpg" />
+  <meta property="og:locale" content="it_IT" />
+  <meta name="theme-color" content="#17140F" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "VDC Events & Consulting",
+    "url": "https://vdcevents.com",
+    "logo": "https://vdcevents.com/favicon.svg",
+    "description": description,
+    "address": { "@type": "PostalAddress", "addressLocality": "Torino", "addressCountry": "IT" },
+    "contactPoint": [{
+      "@type": "ContactPoint",
+      "contactType": "sales",
+      "name": "Valerio Di Chirico",
+      "email": "valerio.dichirico@vdcevents.com",
+      "telephone": "+393333693360"
+    }]
+  })} />
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <Logo variant="light" />
+      <nav class="main-nav" id="mainNav" aria-label="Navigazione principale">
+        <a href="#metodo">Metodo</a>
+        <a href="#servizi">Servizi</a>
+        <a href="#marketing">Marketing</a>
+        <a href="#contatti">Contatti</a>
+        <a href="#contatti" class="btn btn-gold nav-cta">Parliamone</a>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Apri menu" aria-expanded="false" aria-controls="mainNav">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <Logo variant="light" />
+        <p>L'eccellenza dietro ogni grande evento.<br />Torino · operiamo in tutta Italia</p>
+      </div>
+      <nav class="footer-nav" aria-label="Navigazione footer">
+        <a href="#metodo">Metodo</a>
+        <a href="#servizi">Servizi</a>
+        <a href="#marketing">Marketing</a>
+        <a href="#contatti">Contatti</a>
+      </nav>
+      <div class="footer-contact">
+        <p><strong>Valerio Di Chirico</strong><br />
+        <a href="mailto:valerio.dichirico@vdcevents.com">valerio.dichirico@vdcevents.com</a><br />
+        <a href="tel:+393333693360">+39 333 369 3360</a></p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 VDC Events &amp; Consulting · Torino</p>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('siteHeader');
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const toggle = document.getElementById('menuToggle');
+    const nav = document.getElementById('mainNav');
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+      document.body.classList.toggle('nav-open', open);
+    });
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('nav-open');
+    }));
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    const params = new URLSearchParams(window.location.search);
+    const formMsg = document.getElementById('form-status');
+    if (formMsg && params.get('inviato') === 'ok') {
+      formMsg.textContent = 'Richiesta inviata correttamente. Ti ricontatteremo al più presto.';
+      formMsg.className = 'form-status ok';
+    } else if (formMsg && params.get('errore') === '1') {
+      formMsg.textContent = 'Si è verificato un errore nell\'invio. Riprova o scrivici direttamente via email.';
+      formMsg.className = 'form-status err';
+    }
+  </script>
+</body>
+</html>
+
+<style is:global>
+  :root {
+    --ink: #17140F;
+    --ink-2: #211C14;
+    --ivory: #FAF6EF;
+    --paper: #FFFFFF;
+    --gold: #B08A3C;
+    --gold-soft: #C9A96A;
+    --muted: #6E6659;
+    --muted-light: #A79C8A;
+    --line: #E8E1D3;
+    --line-dark: rgba(250, 246, 239, 0.14);
+    --radius: 10px;
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--ivory);
+    color: var(--ink);
+    line-height: 1.65;
+    font-size: 16.5px;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  .container { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.015em; line-height: 1.12; }
+  h1 { font-size: clamp(2.6rem, 6vw, 4.4rem); }
+  h2 { font-size: clamp(2rem, 4.4vw, 3.1rem); }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 14px;
+    font-size: 12.5px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 22px;
+  }
+  .eyebrow::before { content: ''; width: 34px; height: 1px; background: var(--gold); }
+
+  .section-intro { color: var(--muted); font-size: 18px; max-width: 640px; margin-top: 18px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 15px 30px; border-radius: 999px;
+    font-size: 14.5px; font-weight: 600; letter-spacing: 0.02em;
+    text-decoration: none; cursor: pointer; border: 1px solid transparent;
+    transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-gold { background: var(--gold); color: #fff; }
+  .btn-gold:hover { background: #96742e; }
+  .btn-outline-light { border-color: rgba(250,246,239,0.45); color: var(--ivory); background: transparent; }
+  .btn-outline-light:hover { border-color: var(--ivory); background: rgba(250,246,239,0.08); }
+  .btn-outline-dark { border-color: var(--ink); color: var(--ink); background: transparent; }
+  .btn-outline-dark:hover { background: var(--ink); color: var(--ivory); }
+
+  /* Header */
+  .site-header {
+    position: fixed; inset: 0 0 auto 0; z-index: 100;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(to bottom, rgba(15,12,8,0.55), transparent);
+  }
+  .site-header.scrolled {
+    background: rgba(23, 20, 15, 0.94);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 var(--line-dark);
+  }
+  .header-inner { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; padding-bottom: 16px; }
+  .main-nav { display: flex; align-items: center; gap: 34px; }
+  .main-nav > a:not(.btn) {
+    color: rgba(250,246,239,0.85); text-decoration: none; font-size: 14.5px; font-weight: 500; letter-spacing: 0.03em;
+    transition: color 0.2s ease;
+  }
+  .main-nav > a:not(.btn):hover { color: var(--gold-soft); }
+  .nav-cta { padding: 11px 24px; }
+  .menu-toggle { display: none; }
+
+  /* Reveal animations */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* Footer */
+  .site-footer { background: var(--ink); color: var(--muted-light); padding: 72px 0 0; }
+  .footer-grid {
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 48px;
+    padding-bottom: 52px; border-bottom: 1px solid var(--line-dark);
+  }
+  .footer-brand p { margin-top: 20px; font-size: 14.5px; line-height: 1.7; }
+  .footer-nav { display: flex; flex-direction: column; gap: 12px; }
+  .footer-nav a, .footer-contact a { color: var(--muted-light); text-decoration: none; font-size: 14.5px; transition: color 0.2s ease; }
+  .footer-nav a:hover, .footer-contact a:hover { color: var(--gold-soft); }
+  .footer-contact p { font-size: 14.5px; line-height: 1.8; }
+  .footer-contact strong { color: var(--ivory); font-weight: 600; }
+  .footer-bottom { padding: 26px 28px; font-size: 13.5px; display: flex; justify-content: space-between; }
+
+  @media (max-width: 860px) {
+    .menu-toggle {
+      display: flex; flex-direction: column; gap: 6px; background: none; border: 0; cursor: pointer; padding: 10px; z-index: 110;
+    }
+    .menu-toggle span { width: 24px; height: 2px; background: var(--ivory); transition: transform 0.3s ease, opacity 0.3s ease; }
+    .main-nav {
+      position: fixed; inset: 0; flex-direction: column; justify-content: center; gap: 30px;
+      background: rgba(23, 20, 15, 0.98); transform: translateY(-100%); transition: transform 0.35s ease;
+    }
+    .main-nav.open { transform: none; }
+    .main-nav > a:not(.btn) { font-size: 22px; font-family: var(--font-display); }
+    body.nav-open .menu-toggle span:first-child { transform: translateY(4px) rotate(45deg); }
+    body.nav-open .menu-toggle span:last-child { transform: translateY(-4px) rotate(-45deg); }
+    body.nav-open { overflow: hidden; }
+    .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+  }
+</style>
